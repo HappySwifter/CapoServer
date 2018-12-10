@@ -2,6 +2,15 @@
   "object": {
     "pins": [
       {
+        "package": "Auth",
+        "repositoryURL": "https://github.com/vapor/auth.git",
+        "state": {
+          "branch": null,
+          "revision": "90868627c7587ea207c0b6d4054265e68f6a33ef",
+          "version": "2.0.1"
+        }
+      },
+      {
         "package": "Console",
         "repositoryURL": "https://github.com/vapor/console.git",
         "state": {
@@ -17,6 +26,15 @@
           "branch": null,
           "revision": "eb876a758733166a4fb20f3f0a17b480c5ea563e",
           "version": "3.4.3"
+        }
+      },
+      {
+        "package": "CRuntime",
+        "repositoryURL": "https://github.com/wickwirew/CRuntime.git",
+        "state": {
+          "branch": null,
+          "revision": "8d0dd0ca3787d15682c1f44de3d298459870b121",
+          "version": "1.0.0"
         }
       },
       {
@@ -56,6 +74,33 @@
         }
       },
       {
+        "package": "Graphiti",
+        "repositoryURL": "https://github.com/noahemmet/Graphiti.git",
+        "state": {
+          "branch": "master",
+          "revision": "d3e2a4fd13593112bb35110863036f9b44cee339",
+          "version": null
+        }
+      },
+      {
+        "package": "GraphQL",
+        "repositoryURL": "https://github.com/noahemmet/GraphQL.git",
+        "state": {
+          "branch": "master",
+          "revision": "5fb507ec3c1fa126e1e170cc5caaea4cf0c8cb95",
+          "version": null
+        }
+      },
+      {
+        "package": "VaporGraphQL",
+        "repositoryURL": "https://github.com/noahemmet/GraphQLRouteCollection.git",
+        "state": {
+          "branch": "master",
+          "revision": "f53bc9ff2a320d545d4cabbdb917ab655a762e72",
+          "version": null
+        }
+      },
+      {
         "package": "HTTP",
         "repositoryURL": "https://github.com/vapor/http.git",
         "state": {
@@ -80,6 +125,15 @@
           "branch": null,
           "revision": "3219e328491b0853b8554c5a694add344d2c6cfb",
           "version": "3.0.1"
+        }
+      },
+      {
+        "package": "Runtime",
+        "repositoryURL": "https://github.com/noahemmet/Runtime.git",
+        "state": {
+          "branch": "master",
+          "revision": "38f34139226e8f007e8f582c43fcbe6a732346ec",
+          "version": null
         }
       },
       {
