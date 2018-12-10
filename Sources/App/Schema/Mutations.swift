@@ -90,7 +90,7 @@ let mutationType = try! GraphQLObjectType(
 )
 
 
-func createUserResolver(req: Request, args: Map) throws -> EventLoopFuture<Any?> {
+func createUserResolver(req: Request, args: Map) throws -> Future<Any?> {
     let createUserRequest = try args.decode(type: CreateUserRequest.self)
     let hash = try BCrypt.hash(createUserRequest.password)
 
@@ -104,7 +104,7 @@ func createUserResolver(req: Request, args: Map) throws -> EventLoopFuture<Any?>
     }
 }
 
-func loginUserResolver(req: Request, arguments: Map) throws -> EventLoopFuture<Any?> {
+func loginUserResolver(req: Request, arguments: Map) throws -> Future<Any?> {
     
     let basic = BasicAuthorization(username: arguments["email"].string!,
                                    password: arguments["password"].string!)
@@ -119,7 +119,7 @@ func loginUserResolver(req: Request, arguments: Map) throws -> EventLoopFuture<A
 }
 
 
-func createEventResolver(req: Request, args: Map) throws -> EventLoopFuture<Any?> {
+func createEventResolver(req: Request, args: Map) throws -> Future<Any?> {
     return try getUser(on: req).flatMap { user in
         let createEventRequest = try args.decode(type: CreateEventRequest.self)
         let event = Event(title: createEventRequest.name, eventDescription: "Description", address: "Address", logoURL: nil, userID: user.id!, eventType: 0)
@@ -127,7 +127,7 @@ func createEventResolver(req: Request, args: Map) throws -> EventLoopFuture<Any?
     }
 }
 
-func subscribeToEventResolver(req: Request, args: Map) throws -> EventLoopFuture<Any?> {
+func subscribeToEventResolver(req: Request, args: Map) throws -> Future<Any?> {
     return try getUser(on: req).flatMap { user in
         
         let request = try args.decode(type: SubscribeToEventRequest.self)
@@ -147,7 +147,7 @@ func subscribeToEventResolver(req: Request, args: Map) throws -> EventLoopFuture
     }
 }
 
-func unsubscribeFromEventResolver(req: Request, args: Map) throws -> EventLoopFuture<Any?> {
+func unsubscribeFromEventResolver(req: Request, args: Map) throws -> Future<Any?> {
     return try getUser(on: req).flatMap { user in
         let request = try args.decode(type: SubscribeToEventRequest.self)
         return Event.find(request.eventId, on: req).flatMap{ event in

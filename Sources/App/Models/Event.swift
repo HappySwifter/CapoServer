@@ -91,7 +91,7 @@ struct AddEventType: SQLiteMigration {
 }
 
 struct EventTypeCleanup: SQLiteMigration {
-    static func revert(on conn: SQLiteConnection) -> EventLoopFuture<Void> {
+    static func revert(on conn: SQLiteConnection) -> Future<Void> {
         return conn.future(())
     }
     

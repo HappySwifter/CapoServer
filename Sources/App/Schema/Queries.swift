@@ -33,10 +33,10 @@ let queryType = try! GraphQLObjectType(
 )
 
 
-func getUserByIdResolver(req: Request, args: Map) -> EventLoopFuture<Any?> {
+func getUserByIdResolver(req: Request, args: Map) -> Future<Any?> {
     return User.find(args["id"].int!, on: req).map { $0 }
 }
 
-func getAllEventsResiolver(req: Request) -> EventLoopFuture<Any?> {
+func getAllEventsResiolver(req: Request) -> Future<Any?> {
     return Event.query(on: req).all().map { $0 }
 }

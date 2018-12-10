@@ -40,7 +40,7 @@ let hunanTokenType = try! GraphQLObjectType(
 )
 
 
-func tokenDateResolver(eventLoopGroup: EventLoopGroup, userToken: Any) -> EventLoopFuture<Any?> {
+func tokenDateResolver(eventLoopGroup: EventLoopGroup, userToken: Any) -> Future<Any?> {
     var date: String?
     if let userToken = userToken as? UserToken, let expiresAt = userToken.expiresAt {
         date = dateFormatter.string(from: expiresAt)
@@ -48,6 +48,6 @@ func tokenDateResolver(eventLoopGroup: EventLoopGroup, userToken: Any) -> EventL
     return eventLoopGroup.next().newSucceededFuture(result: date)
 }
 
-func tokenUserResolver(eventLoopGroup: EventLoopGroup, userToken: Any) -> EventLoopFuture<Any?> {
+func tokenUserResolver(eventLoopGroup: EventLoopGroup, userToken: Any) -> Future<Any?> {
     return User.find((userToken as! UserToken).userID, on: eventLoopGroup as! Request).map { $0 }
 }

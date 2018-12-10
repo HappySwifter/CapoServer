@@ -49,7 +49,7 @@ let eventType = try! GraphQLObjectType(
 )
 
 
-func eventOwnerResolver(eventLoopGroup: EventLoopGroup, event: Any) throws -> EventLoopFuture<Any?> {
+func eventOwnerResolver(eventLoopGroup: EventLoopGroup, event: Any) throws -> Future<Any?> {
     if let event = event as? Event, let req = eventLoopGroup as? Request {
         let userID = event.user.parentID
         return User.find(userID, on: req).map { user in
@@ -60,7 +60,7 @@ func eventOwnerResolver(eventLoopGroup: EventLoopGroup, event: Any) throws -> Ev
     }
 }
 
-func eventSubscribersResolver(eventLoopGroup: EventLoopGroup, event: Any) throws -> EventLoopFuture<Any?> {
+func eventSubscribersResolver(eventLoopGroup: EventLoopGroup, event: Any) throws -> Future<Any?> {
     let event = event as! Event
     let req = eventLoopGroup as! Request
     return try event.subscribers.query(on: req).all().map{ $0 }
