@@ -1,5 +1,6 @@
 import FluentSQLite
 import Vapor
+import GraphQL
 
 
 

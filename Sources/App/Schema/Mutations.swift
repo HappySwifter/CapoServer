@@ -9,9 +9,6 @@ import GraphQL
 import Crypto
 import Vapor
 import Fluent
-//import FluentSQLite
-//import FluentSQL
-
 
 let mutationType = try! GraphQLObjectType(
     name: "Mutation",
