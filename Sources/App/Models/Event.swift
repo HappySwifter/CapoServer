@@ -1,4 +1,4 @@
-import FluentSQLite
+import FluentMySQL
 import Vapor
 import GraphQL
 
@@ -12,7 +12,7 @@ enum EventType: Int {
 }
 
 /// A single entry of a event list.
-final class Event: SQLiteModel {
+final class Event: MySQLModel {
     /// The unique identifier for this `Event`.
     var id: Int?
     
@@ -52,8 +52,8 @@ extension Event {
 
 /// Allows `Event` to be used as a Fluent migration.
 extension Event: Migration {
-    static func prepare(on conn: SQLiteConnection) -> Future<Void> {
-        return SQLiteDatabase.create(Event.self, on: conn) { builder in
+    static func prepare(on conn: MySQLConnection) -> Future<Void> {
+        return MySQLDatabase.create(Event.self, on: conn) { builder in
             builder.field(for: \.id, isIdentifier: true)
             builder.field(for: \.title)
             builder.field(for: \.userID)
@@ -75,27 +75,27 @@ extension Event: Parameter { }
 
 
 
-struct AddEventType: SQLiteMigration {
-    static func revert(on conn: SQLiteConnection) -> Future<Void> {
-        return SQLiteDatabase.update(Event.self, on: conn, closure: { (builder) in
+struct AddEventType: MySQLMigration {
+    static func revert(on conn: MySQLConnection) -> Future<Void> {
+        return MySQLDatabase.update(Event.self, on: conn, closure: { (builder) in
             builder.deleteField(for: \.logoURL)
             
         })
     }
     
-    static func prepare(on conn: SQLiteConnection) -> Future<Void> {
-        return SQLiteDatabase.update(Event.self, on: conn, closure: { (builder) in
+    static func prepare(on conn: MySQLConnection) -> Future<Void> {
+        return MySQLDatabase.update(Event.self, on: conn, closure: { (builder) in
             builder.field(for: \.logoURL)
         })
     }
 }
 
-struct EventTypeCleanup: SQLiteMigration {
-    static func revert(on conn: SQLiteConnection) -> Future<Void> {
+struct EventTypeCleanup: MySQLMigration {
+    static func revert(on conn: MySQLConnection) -> Future<Void> {
         return conn.future(())
     }
     
-    static func prepare(on conn: SQLiteConnection) -> Future<Void> {
+    static func prepare(on conn: MySQLConnection) -> Future<Void> {
         return Event.query(on: conn).delete()
     }
 }

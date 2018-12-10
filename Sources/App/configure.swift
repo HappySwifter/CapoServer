@@ -1,4 +1,4 @@
-import FluentSQLite
+import FluentMySQL
 import Vapor
 import VaporGraphQL
 import Authentication
@@ -6,7 +6,8 @@ import Authentication
 
 /// Called before your application initializes.
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
-    try services.register(FluentSQLiteProvider())
+    try services.register(FluentMySQLProvider())
+
     try services.register(AuthenticationProvider())
     
     let httpGraphQL = HTTPGraphQL() { req -> ExecutionContext in
@@ -31,28 +32,37 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     middlewares.use(FileMiddleware.self) // Serves files from `Public/` directory
     
     services.register(middlewares)
-    
-    
-    // Configure a SQLite database
-    let sqlite = try SQLiteDatabase(storage: .file(path: "dat.sqlite"))//.file(path: "dat.sqlite")
-    // Register the configured SQLite database to the database config.
+
+    // Register the configured database to the database config.
     var databases = DatabasesConfig()
-    databases.enableLogging(on: .sqlite)
-    databases.add(database: sqlite, as: .sqlite)
+    // Configure a MySQL database
+//    let config = MySQLDatabaseConfig.root(database: "CapoServer")
+    let config = MySQLDatabaseConfig(hostname: "127.0.0.1",
+                                     port: 3306,
+                                     username: "vapor",
+                                     password: "1234",
+                                     database: "CapoServer",
+                                     transport: .unverifiedTLS)
+    
+    databases.add(database: MySQLDatabase(config: config), as: .mysql)
+//    let sqlite = try SQLiteDatabase(storage: .file(path: "dat.sqlite"))//.file(path: "dat.sqlite")
+
+    databases.enableLogging(on: .mysql)
+//    databases.add(database: sqlite, as: .sqlite)
     services.register(databases)
     
     
     
     /// Configure migrations
     var migrations = MigrationConfig()
-    migrations.add(model: User.self, database: .sqlite)
-    migrations.add(model: UserToken.self, database: .sqlite)
-    migrations.add(model: Event.self, database: .sqlite)
-    //    migrations.add(model: Group.self, database: .sqlite)
-    migrations.add(model: EventUserPivot.self, database: .sqlite)
-    //    migrations.add(model: GroupUserPivot.self, database: .sqlite)
-    //    migrations.add(migration: AddEventType.self, database: .sqlite)
-    //    migrations.add(migration: EventTypeCleanup.self, database: .sqlite)
+    migrations.add(model: User.self, database: .mysql)
+    migrations.add(model: UserToken.self, database: .mysql)
+    migrations.add(model: Event.self, database: .mysql)
+    //    migrations.add(model: Group.self, database: .mysql)
+    migrations.add(model: EventUserPivot.self, database: .mysql)
+    //    migrations.add(model: GroupUserPivot.self, database: .mysql)
+    //    migrations.add(migration: AddEventType.self, database: .mysql)
+    //    migrations.add(migration: EventTypeCleanup.self, database: .mysql)
     services.register(migrations)
 
 }

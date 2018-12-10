@@ -1,9 +1,9 @@
-import FluentSQLite
+import FluentMySQL
 import Vapor
 import Authentication
 
 
-final class User: SQLiteModel {
+final class User: MySQLModel {
     var id: Int?
     
     let name: String
@@ -26,8 +26,8 @@ final class User: SQLiteModel {
 
 extension User: Migration {
     /// See `Migration`.
-    static func prepare(on conn: SQLiteConnection) -> Future<Void> {
-        return SQLiteDatabase.create(User.self, on: conn) { builder in
+    static func prepare(on conn: MySQLConnection) -> Future<Void> {
+        return MySQLDatabase.create(User.self, on: conn) { builder in
             builder.field(for: \.id, isIdentifier: true)
             builder.field(for: \.name)
             builder.field(for: \.email)

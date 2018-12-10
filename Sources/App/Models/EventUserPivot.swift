@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import FluentSQLite
+import FluentMySQL
 import Vapor
 
-final class EventUserPivot: SQLiteUUIDPivot, ModifiablePivot {
+final class EventUserPivot: MySQLUUIDPivot, ModifiablePivot {
     
     var id: UUID?
     var eventID: Event.ID
@@ -27,16 +27,16 @@ final class EventUserPivot: SQLiteUUIDPivot, ModifiablePivot {
 }
 
 extension EventUserPivot: Migration {
-    static func prepare(on conn: SQLiteConnection) -> Future<Void> {
-        return SQLiteDatabase.create(self, on: conn) { builder in
+    static func prepare(on conn: MySQLConnection) -> Future<Void> {
+        return MySQLDatabase.create(self, on: conn) { builder in
             try addProperties(to: builder)
             builder.reference(from: \.eventID, to: \Event.id, onDelete: .cascade)
             builder.reference(from: \.userID, to: \User.id, onDelete: .cascade)
         }
     }
     
-    //    static func prepare(on conn: SQLiteConnection) -> Future<Void> {
-    //        return SQLiteDatabase.create(User.self, on: conn) { builder in
+    //    static func prepare(on conn: MySQLConnection) -> Future<Void> {
+    //        return MySQLDatabase.create(User.self, on: conn) { builder in
     //            builder.field(for: \.id, isIdentifier: true)
     //            builder.field(for: \.name)
     //            builder.field(for: \.email)

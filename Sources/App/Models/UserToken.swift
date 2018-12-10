@@ -1,10 +1,10 @@
 import Authentication
 import Crypto
-import FluentSQLite
+import FluentMySQL
 import Vapor
 
 /// An ephermal authentication token that identifies a registered user.
-final class UserToken: SQLiteModel {
+final class UserToken: MySQLModel {
     /// Creates a new `UserToken` for a given user.
     static func create(userID: User.ID) throws -> UserToken {
         // generate a random 128-bit, base64-encoded string.
@@ -64,8 +64,8 @@ extension UserToken: Token {
 /// Allows `UserToken` to be used as a Fluent migration.
 extension UserToken: Migration {
     /// See `Migration`.
-    static func prepare(on conn: SQLiteConnection) -> Future<Void> {
-        return SQLiteDatabase.create(UserToken.self, on: conn) { builder in
+    static func prepare(on conn: MySQLConnection) -> Future<Void> {
+        return MySQLDatabase.create(UserToken.self, on: conn) { builder in
             builder.field(for: \.id, isIdentifier: true)
             builder.field(for: \.string)
             builder.field(for: \.userID)
