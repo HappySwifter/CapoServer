@@ -37,12 +37,13 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     var databases = DatabasesConfig()
     // Configure a MySQL database
 //    let config = MySQLDatabaseConfig.root(database: "CapoServer")
-    let config = MySQLDatabaseConfig(hostname: "127.0.0.1",
+    let config = MySQLDatabaseConfig(hostname: DatabaseConfig.hostname,
                                      port: 3306,
-                                     username: "vapor",
-                                     password: "1234",
-                                     database: "CapoServer",
-                                     transport: .unverifiedTLS)
+                                     username: DatabaseConfig.username,
+                                     password: DatabaseConfig.password,
+                                     database: DatabaseConfig.database
+//                                    ,transport: .unverifiedTLS
+    )
     
     databases.add(database: MySQLDatabase(config: config), as: .mysql)
 //    let sqlite = try SQLiteDatabase(storage: .file(path: "dat.sqlite"))//.file(path: "dat.sqlite")
