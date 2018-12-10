@@ -58,7 +58,7 @@ let mutationType = try! GraphQLObjectType(
             args: [
                 "name": GraphQLArgument(
                     type: GraphQLString,
-                    description: "email of the user"
+                    description: "createEvent"
                 ),
             ],
             resolve: { source, arguments, context, eventLoopGroup, info in
@@ -82,7 +82,7 @@ let mutationType = try! GraphQLObjectType(
             args: [
                 "eventId": GraphQLArgument(
                     type: GraphQLInt,
-                    description: "subscribe to event"
+                    description: "unsubscribe to event"
                 ),
                 ],
             resolve: { source, arguments, context, eventLoopGroup, info in
@@ -125,7 +125,7 @@ func loginUserResolver(req: Request, arguments: Map) throws -> EventLoopFuture<A
 func createEventResolver(req: Request, args: Map) throws -> EventLoopFuture<Any?> {
     return try getUser(on: req).flatMap { user in
         let createEventRequest = try args.decode(type: CreateEventRequest.self)
-        let event = Event(title: createEventRequest.name, eventDescription: "описание", address: "address", logoURL: nil, userID: user.id!, eventType: 0)
+        let event = Event(title: createEventRequest.name, eventDescription: "Description", address: "Address", logoURL: nil, userID: user.id!, eventType: 0)
         return event.save(on: req).map{ $0 }
     }
 }

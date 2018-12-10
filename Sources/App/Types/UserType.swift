@@ -10,7 +10,7 @@ import Vapor
 
 let userType = try! GraphQLObjectType(
     name: "User",
-    description: "A humanoid creature in the Star Wars universe.",
+    description: "Гыук",
     fields: [
         "id": GraphQLField(
             type: GraphQLNonNull(GraphQLString),

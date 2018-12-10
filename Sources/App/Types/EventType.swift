@@ -18,26 +18,26 @@ let eventType = try! GraphQLObjectType(
         ),
         "title": GraphQLField(
             type: GraphQLString,
-            description: "The name of the user."
+            description: "title"
         ),
         "eventDescription": GraphQLField(
             type: GraphQLString,
-            description: "Email of the user, or null if unknown."
+            description: "eventDescription"
         ),
         "logoURL": GraphQLField(
             type: GraphQLString,
-            description: "Email of the user, or null if unknown."
+            description: "logoURL"
         ),
         "subscribers": GraphQLField(
             type: GraphQLList(GraphQLTypeReference("User")),
-            description: "The friends of the character, or an empty list if they have none.",
+            description: "subscribers",
             resolve: { event, _, _, eventLoopGroup, _ in
                 return try eventSubscribersResolver(eventLoopGroup: eventLoopGroup, event: event)
             }
         ),
         "owner": GraphQLField(
             type: GraphQLTypeReference("User"),
-            description: "The friends of the character, or an empty list if they have none.",
+            description: "The event owner",
             resolve: { event, _, _, eventLoopGroup, _ in
                 return try eventOwnerResolver(eventLoopGroup: eventLoopGroup, event: event)
             }
@@ -56,7 +56,7 @@ func eventOwnerResolver(eventLoopGroup: EventLoopGroup, event: Any) throws -> Ev
             return user
         }
     } else {
-        throw MyError(description: "ошибка епть")
+        throw MyError(description: "Ошибка сервера")
     }
 }
 

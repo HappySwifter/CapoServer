@@ -9,7 +9,7 @@ import Vapor
 
 let hunanTokenType = try! GraphQLObjectType(
     name: "UserToken",
-    description: "A humanoid creature in the Star Wars universe.",
+    description: "User token",
     fields: [
         "id": GraphQLField(
             type: GraphQLNonNull(GraphQLString),
