@@ -62,6 +62,26 @@ let mutationType = try! GraphQLObjectType(
                 return try createEventResolver(req: eventLoopGroup as! Request, args: arguments)
             }
         ),
+        "createGroup": GraphQLField(
+            type: groupType,
+            args: [
+                "name": GraphQLArgument(
+                    type: GraphQLString,
+                    description: "name of the group"
+                ),
+                "description": GraphQLArgument(
+                    type: GraphQLString,
+                    description: "description of the group"
+                ),
+                "logoURL": GraphQLArgument(
+                    type: GraphQLString,
+                    description: "image path of the group"
+                ),
+                ],
+            resolve: { source, arguments, context, eventLoopGroup, info in
+                return try createGroupResolver(req: eventLoopGroup as! Request, args: arguments)
+        }
+        ),
         "subscribeToEvent": GraphQLField(
             type: eventType,
             args: [
@@ -127,6 +147,15 @@ func createEventResolver(req: Request, args: Map) throws -> Future<Any?> {
     }
 }
 
+func createGroupResolver(req: Request, args: Map) throws -> Future<Any?> {
+    return try getUser(on: req).flatMap { user in
+        let createGroupRequest = try args.decode(type: CreateGroupRequest.self)
+        let group = Group(title: createGroupRequest.name, groupDescription: createGroupRequest.description, address: "Address", logoURL: createGroupRequest.logoURL, userID: user.id!, groupType: 0)
+        return group.save(on: req).map{ $0 }
+    }
+}
+
+
 func subscribeToEventResolver(req: Request, args: Map) throws -> Future<Any?> {
     return try getUser(on: req).flatMap { user in
         
@@ -173,4 +202,10 @@ struct CreateUserRequest: Content {
 
 struct CreateEventRequest: Content {
     var name: String
+}
+
+struct CreateGroupRequest: Content {
+    var name: String
+    var description: String
+    var logoURL: String?
 }

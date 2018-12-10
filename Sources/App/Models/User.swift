@@ -45,12 +45,12 @@ extension User {
         return siblings()
     }
     
-//    var groups: Children<User, Group> {
-//        return children(\Group.userID)
-//    }
-//    var subscribedGroups: Siblings<User, Group, GroupUserPivot> {
-//        return siblings()
-//    }
+    var groups: Children<User, Group> {
+        return children(\Group.userID)
+    }
+    var subscribedGroups: Siblings<User, Group, GroupUserPivot> {
+        return siblings()
+    }
 }
 
 /// Allows users to be verified by basic / password auth middleware.

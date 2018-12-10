@@ -6,3 +6,4 @@ DerivedData/
 .DS_Store
 Package.resolved
 Sources/App/Config.swift
+Public/images
