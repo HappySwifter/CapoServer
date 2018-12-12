@@ -9,7 +9,7 @@ let package = Package(
 
         .package(url: "https://github.com/vapor/fluent-mysql.git", from: "3.0.0"),
 
-        .package(url: "https://github.com/noahemmet/GraphQLRouteCollection.git", .branch("master")),
+        .package(url: "https://github.com/HappySwifter/GraphQLRouteCollection.git", .branch("master")),
         
         .package(url: "https://github.com/vapor/auth.git", from: "2.0.0"),
 
