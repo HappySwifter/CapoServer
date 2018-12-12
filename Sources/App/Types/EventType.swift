@@ -56,7 +56,7 @@ func eventOwnerResolver(eventLoopGroup: EventLoopGroup, event: Any) throws -> Fu
             return user
         }
     } else {
-        throw MyError(description: "Ошибка сервера")
+        throw GraphQLError(message: "Ошибка сервера")
     }
 }
 

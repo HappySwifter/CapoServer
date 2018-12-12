@@ -116,7 +116,7 @@ func createUserResolver(req: Request, args: Map) throws -> Future<Any?> {
 
     return User.query(on: req).filter(\User.email == createUserRequest.email).first().flatMap { optionalUser in
         if let user = optionalUser {
-            throw MyError(description: "User with email \(user.email) already exist")
+            throw GraphQLError(message: "User with email \(user.email) already exist!")
         } else {
             let user = User(name: createUserRequest.name, email: createUserRequest.email, passwordHash: hash)
             return user.save(on: req).map { return $0 }
@@ -133,7 +133,7 @@ func loginUserResolver(req: Request, arguments: Map) throws -> Future<Any?> {
             let token = try UserToken.create(userID: user.requireID())
             return token.save(on: req).map { $0 }
         } else {
-            throw MyError(description: "Wrong email or password")
+            throw GraphQLError(message: "Wrong email or password")
         }
     })
 }
@@ -165,12 +165,12 @@ func subscribeToEventResolver(req: Request, args: Map) throws -> Future<Any?> {
                 return try event.subscribers.query(on: req).all().flatMap{ subs in
                     // удостоверимся, что у подписчиков данного евента уже нет текущего юзера, чтобы не дублировать запись в бд
                     guard subs.filter({ $0.id == user.id }).count == 0 else {
-                        throw MyError(description: "Вы уже подписаны на это событие")
+                        throw GraphQLError(message: "Вы уже подписаны на это событие")
                     }
                     return event.subscribers.attach(user, on: req).transform(to: event)
                 }
             } else {
-                throw MyError(description: "Event with id: \(request.eventId) not found")
+                throw GraphQLError(message: "Event with id: \(request.eventId) not found")
             }
         }
     }
@@ -183,7 +183,7 @@ func unsubscribeFromEventResolver(req: Request, args: Map) throws -> Future<Any?
             if let event = event {
                 return event.subscribers.detach(user, on: req).transform(to: event)
             } else {
-                throw MyError(description: "Event with id: \(request.eventId) not found")
+                throw GraphQLError(message: "Event with id: \(request.eventId) not found")
             }
         }
     }

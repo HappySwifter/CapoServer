@@ -10,9 +10,6 @@ import GraphQL
 import Fluent
 import Vapor
 
-struct MyError: Error, CustomStringConvertible {
-    let description: String
-}
 
 extension Map {
     func decode<T: Codable>(type: T.Type) throws -> T  {
@@ -20,10 +17,10 @@ extension Map {
             if let jsonData = self.description.data(using: .utf8) {
                 return try JSONDecoder().decode(type, from: jsonData)
             } else {
-                throw MyError(description: "wrong format")
+                throw GraphQLError(message: "wrong format")
             }
         } catch {
-            throw MyError(description: "\(error)")
+            throw GraphQLError(message: "\(error)")
         }
         
     }
@@ -41,14 +38,14 @@ var dateFormatter: DateFormatter {
 func getUser(on req: Request) throws -> EventLoopFuture<User> {
     guard let bearer = req.http.headers["Authorization"].first,
         let range = bearer.range(of: "Bearer ") else {
-            throw MyError(description: "Invalid token")
+            throw GraphQLError(message: "Invalid token")
     }
     let token = bearer[range.upperBound...]
     return UserToken.query(on: req).filter(\UserToken.string == String(token)).first().flatMap{ (userToken) in
         if let userToken = userToken {
             return userToken.user.get(on: req)
         } else {
-            throw MyError(description: "Invalid token")
+            throw GraphQLError(message: "Invalid token")
         }
     }
 }
