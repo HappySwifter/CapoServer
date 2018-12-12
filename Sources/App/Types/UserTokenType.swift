@@ -12,7 +12,7 @@ let hunanTokenType = try! GraphQLObjectType(
     description: "User token",
     fields: [
         "id": GraphQLField(
-            type: GraphQLNonNull(GraphQLString),
+            type: GraphQLNonNull(GraphQLInt),
             description: "The id of the user."
         ),
         "string": GraphQLField(

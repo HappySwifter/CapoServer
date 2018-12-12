@@ -13,7 +13,7 @@ let userType = try! GraphQLObjectType(
     description: "Гыук",
     fields: [
         "id": GraphQLField(
-            type: GraphQLNonNull(GraphQLString),
+            type: GraphQLNonNull(GraphQLInt),
             description: "The id of the user."
         ),
         "name": GraphQLField(
