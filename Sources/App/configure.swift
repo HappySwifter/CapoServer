@@ -37,18 +37,21 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     var databases = DatabasesConfig()
     // Configure a MySQL database
     
-//    let config = MySQLDatabaseConfig(hostname: DatabaseConfig.hostname,
-//                                     port: 3306,
-//                                     username: DatabaseConfig.username,
-//                                     password: DatabaseConfig.password,
-//                                     database: DatabaseConfig.database)
     
-    let config = MySQLDatabaseConfig(hostname: "127.0.0.1",
+    print(config.description)
+    print(env)
+    let config = MySQLDatabaseConfig(hostname: Environment.get("hostname")!,
                                      port: 3306,
-                                     username: "vapor",
-                                     password: "1234",
-                                     database: "CapoServer",
-                                     transport: .unverifiedTLS)
+                                     username: Environment.get("username")!,
+                                     password: Environment.get("password")!,
+                                     database: Environment.get("database")!)
+    
+//    let config = MySQLDatabaseConfig(hostname: "127.0.0.1",
+//                                     port: 3306,
+//                                     username: "vapor",
+//                                     password: "1234",
+//                                     database: "CapoServer",
+//                                     transport: .unverifiedTLS)
 
     
     databases.add(database: MySQLDatabase(config: config), as: .mysql)
