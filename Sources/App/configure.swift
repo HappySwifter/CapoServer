@@ -3,7 +3,6 @@ import Vapor
 import VaporGraphQL
 import Authentication
 
-
 /// Called before your application initializes.
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
     try services.register(FluentMySQLProvider())
@@ -38,26 +37,30 @@ public func configure(_ config: inout Config, _ env: inout Environment, _ servic
     // Configure a MySQL database
     
     
-    print(config.description)
-    print(env)
-    let config = MySQLDatabaseConfig(hostname: Environment.get("hostname")!,
-                                     port: 3306,
-                                     username: Environment.get("username")!,
-                                     password: Environment.get("password")!,
-                                     database: Environment.get("database")!)
+//    guard let hostname = Environment.get("hostname"),
+//        let username = Environment.get("username"),
+//        let password = Environment.get("password"),
+//        let database = Environment.get("database") else {
+//            fatalError("You must set your environment variables")
+//    }
     
-//    let config = MySQLDatabaseConfig(hostname: "127.0.0.1",
+//    let config = MySQLDatabaseConfig(hostname: hostname,
 //                                     port: 3306,
-//                                     username: "vapor",
-//                                     password: "1234",
-//                                     database: "CapoServer",
-//                                     transport: .unverifiedTLS)
+//                                     username: username,
+//                                     password: password,
+//                                     database: database)
+    
+    let config = MySQLDatabaseConfig(hostname: "127.0.0.1",
+                                     port: 3306,
+                                     username: "vapor",
+                                     password: "1234",
+                                     database: "CapoServer",
+                                     transport: .unverifiedTLS)
 
     
     databases.add(database: MySQLDatabase(config: config), as: .mysql)
 
     databases.enableLogging(on: .mysql)
-//    databases.add(database: sqlite, as: .sqlite)
     services.register(databases)
     
     
