@@ -24,6 +24,10 @@ let userType = try! GraphQLObjectType(
             type: GraphQLString,
             description: "Email of the user, or null if unknown."
         ),
+        "profileImagePath": GraphQLField(
+            type: GraphQLString,
+            description: "Image path of the user profile, or null if unknown."
+        ),
         ],
     isTypeOf: { source, _, _ in
         source is User

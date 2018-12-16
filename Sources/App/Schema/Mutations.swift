@@ -15,20 +15,7 @@ let mutationType = try! GraphQLObjectType(
     fields: [
         "createUser": GraphQLField(
             type: userType,
-            args: [
-                "name": GraphQLArgument(
-                    type: GraphQLString,
-                    description: "name of the User"
-                ),
-                "email": GraphQLArgument(
-                    type: GraphQLString,
-                    description: "email of the User"
-                ),
-                "password": GraphQLArgument(
-                    type: GraphQLString,
-                    description: "password of the user"
-                )
-            ],
+            args: CreateUserRequest.graphQLArgs,
             resolve: { _, arguments, _, eventLoopGroup, _ in
                 return try createUserResolver(req: eventLoopGroup as! Request, args: arguments)
             }
@@ -48,6 +35,14 @@ let mutationType = try! GraphQLObjectType(
             resolve: { source, arguments, context, eventLoopGroup, info in
                 let req = (eventLoopGroup as! Request)
                 return try loginUserResolver(req: eventLoopGroup as! Request, arguments: arguments)
+            }
+        ),
+        "updateUser": GraphQLField(
+            type: userType,
+            args: UpdateUserRequest.graphQLArgs,
+            resolve: { source, arguments, context, eventLoopGroup, info in
+                let req = (eventLoopGroup as! Request)
+                return try UpdateUserRequest.updateUserResolver(req: eventLoopGroup as! Request, args: arguments)
             }
         ),
         "createEvent": GraphQLField(
@@ -118,7 +113,7 @@ func createUserResolver(req: Request, args: Map) throws -> Future<Any?> {
         if let user = optionalUser {
             throw GraphQLError(message: "User with email \(user.email) already exist!")
         } else {
-            let user = User(name: createUserRequest.name, email: createUserRequest.email, passwordHash: hash)
+            let user = User(name: createUserRequest.name, email: createUserRequest.email, passwordHash: hash, profileImagePath: nil)
             return user.save(on: req).map { return $0 }
         }
     }
@@ -198,6 +193,45 @@ struct CreateUserRequest: Content {
     var name: String
     var email: String
     var password: String
+    
+    static var graphQLArgs: [String: GraphQLArgument] {
+        get {
+            return [
+            "name": GraphQLArgument(type: GraphQLString, description: "name of the User"),
+            "email": GraphQLArgument(type: GraphQLString, description: "email of the User"),
+            "password": GraphQLArgument(type: GraphQLString, description: "password of the user")
+            ]
+        }
+    }
+}
+
+struct UpdateUserRequest: Content {
+    var name: String?
+    var profileImagePath: String?
+    
+    static var graphQLArgs: [String: GraphQLArgument] {
+        get {
+            return [
+                "name": GraphQLArgument(type: GraphQLString, description: "name of the User"),
+                "profileImagePath": GraphQLArgument(type: GraphQLString, description: "user's profile picture")
+            ]
+        }
+    }
+    
+    static func updateUserResolver(req: Request, args: Map) throws -> Future<Any?> {
+        return try getUser(on: req).flatMap { user in
+            let updateUserRequest = try args.decode(type: UpdateUserRequest.self)
+            
+            if let imagePath = updateUserRequest.profileImagePath {
+                user.profileImagePath = imagePath
+            }
+            if let name = updateUserRequest.name {
+                user.name = name
+            }
+            
+            return user.save(on: req).map { return $0 }
+        }
+    }
 }
 
 struct CreateEventRequest: Content {

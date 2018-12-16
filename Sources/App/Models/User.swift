@@ -6,19 +6,22 @@ import Authentication
 final class User: MySQLModel {
     var id: Int?
     
-    let name: String
+    var name: String
     /// User's email address.
     var email: String
     
     /// BCrypt hash of the user's password.
     var passwordHash: String
     
+    var profileImagePath: String?
+    
     /// Creates a new `User`.
-    init(id: Int? = nil, name: String, email: String, passwordHash: String) {
+    init(id: Int? = nil, name: String, email: String, passwordHash: String, profileImagePath: String?) {
         self.id = id
         self.name = name
         self.email = email
         self.passwordHash = passwordHash
+        self.profileImagePath = profileImagePath
     }
 }
 
@@ -32,6 +35,7 @@ extension User: Migration {
             builder.field(for: \.name)
             builder.field(for: \.email)
             builder.field(for: \.passwordHash)
+            builder.field(for: \.profileImagePath)
             builder.unique(on: \.email)
         }
     }
