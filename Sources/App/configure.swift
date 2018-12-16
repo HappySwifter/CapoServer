@@ -5,6 +5,8 @@ import Authentication
 
 /// Called before your application initializes.
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
+    
+    services.register(NIOServerConfig.default(maxBodySize: 5_000_000))
     try services.register(FluentMySQLProvider())
 
     try services.register(AuthenticationProvider())
