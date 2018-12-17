@@ -15,7 +15,7 @@ struct SubscribeToEvent: Content {
     static var args: [String: GraphQLArgument] {
         get {
             return [
-                "eventId": GraphQLArgument(type: GraphQLInt, description: "subscribe to event")
+                "eventId": GraphQLArgument(type: GraphQLNonNull(GraphQLInt), description: "subscribe to event")
             ]
         }
     }

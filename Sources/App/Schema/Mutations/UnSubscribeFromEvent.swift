@@ -14,7 +14,7 @@ struct UnsubscribeFromEvent: Content {
     static var args: [String: GraphQLArgument] {
         get {
             return [
-                "eventId": GraphQLArgument(type: GraphQLInt, description: "unsubscribe from event")
+                "eventId": GraphQLArgument(type: GraphQLNonNull(GraphQLInt), description: "unsubscribe from event")
             ]
         }
     }

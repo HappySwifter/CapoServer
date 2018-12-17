@@ -26,7 +26,7 @@ final class Group: MySQLModel {
     
     var groupType: Int?
     /// Creates a new `Group`.
-    init(id: Int? = nil, title: String, groupDescription: String, address: String, logoURL: String?, userID: User.ID, groupType: Int) {
+    init(id: Int? = nil, title: String, groupDescription: String?, address: String?, logoURL: String?, userID: User.ID, groupType: Int) {
         self.id = id
         self.title = title
         self.groupDescription = groupDescription

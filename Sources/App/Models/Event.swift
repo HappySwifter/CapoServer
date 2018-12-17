@@ -26,7 +26,7 @@ final class Event: MySQLModel {
     
     var eventType: Int?
     /// Creates a new `Event`.
-    init(id: Int? = nil, title: String, eventDescription: String, address: String, logoURL: String?, userID: User.ID, eventType: Int) {
+    init(id: Int? = nil, title: String, eventDescription: String?, address: String?, logoURL: String?, userID: User.ID, eventType: Int) {
         self.id = id
         self.title = title
         self.eventDescription = eventDescription

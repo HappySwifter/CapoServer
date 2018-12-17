@@ -11,6 +11,7 @@ import Vapor
 import Fluent
 import Crypto
 
+
 struct CreateUser: Content {
     var name: String
     var email: String
@@ -19,9 +20,9 @@ struct CreateUser: Content {
     static var args: [String: GraphQLArgument] {
         get {
             return [
-                "name": GraphQLArgument(type: GraphQLString, description: "name of the User"),
-                "email": GraphQLArgument(type: GraphQLString, description: "email of the User"),
-                "password": GraphQLArgument(type: GraphQLString, description: "password of the user")
+                "name": GraphQLArgument(type: GraphQLNonNull(GraphQLString), description: "name of the user"),
+                "email": GraphQLArgument(type: GraphQLNonNull(GraphQLString), description: "email of the user"),
+                "password": GraphQLArgument(type: GraphQLNonNull(GraphQLString), description: "password of the user")
             ]
         }
     }

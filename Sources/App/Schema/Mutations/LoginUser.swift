@@ -14,8 +14,8 @@ struct LoginUser {
     static var args: [String: GraphQLArgument] {
         get {
             return [
-                "email": GraphQLArgument(type: GraphQLString, description: "email of the user"),
-                "password": GraphQLArgument(type: GraphQLString, description: "password of the user")
+                "email": GraphQLArgument(type: GraphQLNonNull(GraphQLString), description: "email of the user"),
+                "password": GraphQLArgument(type: GraphQLNonNull(GraphQLString), description: "password of the user")
             ]
         }
     }
