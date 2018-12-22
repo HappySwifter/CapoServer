@@ -41,9 +41,9 @@ let mutationType = try! GraphQLObjectType(
         ),
         "createGroup": GraphQLField(
             type: groupType,
-            args: CreateGroup.args,
+            args: CreateOrUpdateGroup.args,
             resolve: { _, arguments, _, eventLoopGroup, _ in
-                return try CreateGroup.resolver(req: eventLoopGroup as! Request, args: arguments)
+                return try CreateOrUpdateGroup.resolver(req: eventLoopGroup as! Request, args: arguments)
         }
         ),
         "subscribeToEvent": GraphQLField(
