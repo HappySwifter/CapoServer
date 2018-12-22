@@ -35,6 +35,14 @@ let eventType = try! GraphQLObjectType(
                 return try eventSubscribersResolver(eventLoopGroup: eventLoopGroup, event: event)
             }
         ),
+        "eventType": GraphQLField(
+            type: GraphQLNonNull(eventTypeEnum),
+            description: "event type",
+            resolve: { event, _, _, eventLoopGroup, _ in
+                let type = (event as! Event).eventType
+                return eventLoopGroup.next().newSucceededFuture(result: EventType(type))
+            }
+        ),
         "owner": GraphQLField(
             type: GraphQLTypeReference("User"),
             description: "The event owner",

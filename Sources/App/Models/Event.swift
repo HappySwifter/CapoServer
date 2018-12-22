@@ -4,13 +4,6 @@ import GraphQL
 
 
 
-enum EventType: Int {
-    case roda = 0
-    case openLesson
-    case seminar
-    case party
-}
-
 /// A single entry of a event list.
 final class Event: MySQLModel {
     /// The unique identifier for this `Event`.
@@ -24,9 +17,9 @@ final class Event: MySQLModel {
     /// Reference to user that owns this event.
     var userID: User.ID
     
-    var eventType: Int?
+    var eventType: String?
     /// Creates a new `Event`.
-    init(id: Int? = nil, title: String, eventDescription: String?, address: String?, logoURL: String?, userID: User.ID, eventType: Int) {
+    init(id: Int? = nil, title: String, eventDescription: String?, address: String?, logoURL: String?, userID: User.ID, eventType: String?) {
         self.id = id
         self.title = title
         self.eventDescription = eventDescription
