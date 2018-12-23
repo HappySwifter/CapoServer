@@ -1,3 +1,7 @@
+# CapoServer
+
+Project is under development.
+
 GraphQL server for [CapoMap](https://github.com/HappySwifter/CapoMap) application
 
 You can find running server example [here](http://3.122.15.128:8080/graphiql)
