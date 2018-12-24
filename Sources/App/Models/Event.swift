@@ -3,6 +3,19 @@ import Vapor
 import GraphQL
 
 
+enum EventType : String {
+    case roda = "roda"
+    case party = "party"
+    case seminar = "seminar"
+    case training = "training"
+    
+    init?(_ string: String?) {
+        guard let string = string else {
+            return nil
+        }
+        self.init(rawValue: string)
+    }
+}
 
 /// A single entry of a event list.
 final class Event: MySQLModel {

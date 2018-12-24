@@ -11,3 +11,9 @@ extension User : MapFallibleRepresentable {}
 extension UserToken : MapFallibleRepresentable {}
 extension Event : MapFallibleRepresentable {}
 extension Group : MapFallibleRepresentable {}
+
+extension EventType : MapRepresentable {
+    var map: Map {
+        return rawValue.map
+    }
+}
